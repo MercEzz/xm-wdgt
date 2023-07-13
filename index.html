@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>xume-widget</title>
+  </head>
+  <style>
+    #xume-widget {
+      display: none;
+      width: 65%;
+      height: 70vh;
+      border-radius: 35px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    @media (max-width: 480px) {
+      #xume-widget {
+        width: 95%;
+        height: 63vh;
+        border-radius: 25px;
+      }
+    }
+
+    button {
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+      background-color: black;
+      border-radius: 6px;
+      padding: 5px;
+    }
+    img {
+      height: 25px;
+    }
+  </style>
+  <body>
+    <iframe id="xume-widget" src="./widget.html"></iframe>
+    <button id="frame-btn" onclick="toggleFrame()">
+      <img src="./assets/logo/logo full.png" />
+    </button>
+    <script>
+      const frameBtn = document.getElementById("frame-btn");
+      const xumeWidget = document.getElementById("xume-widget");
+      let iframeSrc = xumeWidget.src;
+
+      const toggleFrame = () => {
+        if (
+          xumeWidget.style.display === "none" ||
+          xumeWidget.style.display === ""
+        ) {
+          // If the iframe is hidden or not displayed
+          xumeWidget.src = iframeSrc; // Reset the src to reload the content
+          xumeWidget.style.display = "block";
+        } else {
+          xumeWidget.style.display = "none";
+        }
+      };
+
+      const closeFrame = (event) => {
+        if (
+          !xumeWidget.contains(event.target) &&
+          event.target !== frameBtn &&
+          !frameBtn.contains(event.target)
+        ) {
+          xumeWidget.style.display = "none";
+        }
+      };
+
+      window.addEventListener("click", closeFrame);
+    </script>
+  </body>
+</html>

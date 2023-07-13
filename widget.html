@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>xume</title>
+    <!-- Monsterrat fonts -->
+    <!-- <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    /> -->
+    <!-- Nunito fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      /* Track */
+      ::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 5px rgba(33, 33, 33, 0.9);
+        background-color: rgba(33, 33, 33, 0.1);
+        border-radius: 10px;
+        border: 1px solid rgba(99, 88, 88, 0.7);
+      }
+
+      /* Handle */
+      ::-webkit-scrollbar-thumb {
+        background: rgba(99, 88, 88, 0.7);
+        border-radius: 50px;
+        min-height: 20px;
+        max-height: 20px;
+      }
+
+      /* Handle on hover */
+      ::-webkit-scrollbar-thumb:hover {
+        background: rgba(99, 88, 88, 0.4);
+      }
+    </style>
+    <script>
+      tailwind.config = {
+        theme: {
+          screens: {
+            sm: "480px",
+            md: "768px",
+            lg: "976px",
+            xl: "1440px",
+          },
+          fontFamily: {
+            // sans: ["Montserrat", "sans-serif"],
+            // heading: ["Montserrat", "sans-serif"],
+            sans: ["Nunito Sans", "sans-serif"],
+            heading: ["Nunito Sans", "sans-serif"],
+          },
+          extend: {
+            styles: {
+              body: {
+                color: "#070707",
+                bg: "#FFF",
+              },
+            },
+            colors: {
+              xmGreen: "#1E9B74",
+              xmYellow: "#FDC038",
+              xmBlue: "#1E2B34",
+              xmRed: "#E33F27",
+              xmGrey: "#1C1D1F",
+            },
+            borderRadius: {
+              none: "0",
+              sm: "0.125rem",
+              DEFAULT: "0.25rem",
+              DEFAULT: "4px",
+              md: "0.375rem",
+              lg: "0.5rem",
+              "3xl": "3rem",
+              full: "9999px",
+              large: "12px",
+            },
+            fontWeight: {
+              thin: "100",
+              hairline: "100",
+              extralight: "200",
+              light: "300",
+              normal: "400",
+              medium: "500",
+              semibold: "600",
+              bold: "700",
+              extrabold: "800",
+              black: "900",
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body
+    class="h-full overflow-x-hidden w-screen bg-black text-white flex flex-col align-start justify-start"
+  >
+    <!-- top container -->
+    <div
+      class="w-screen flex items-center justify-center relative gap-8 md:gap-6 lg:gap-8 flex-col bg-xmGrey p-10 md:p-10 lg:p-12 rounded-bl-3xl rounded-br-3xl"
+    >
+      <div class="items-center justify-center flex gap-0">
+        <button
+          id="categoryButton"
+          class="border border-white text-xs md:text-sm lg:text-base py-1 px-6 md:px-8 lg:px-12 font-normal bg-xmGreen hover:bg-xmGreen rounded-l-full"
+        >
+          Category
+        </button>
+        <button
+          id="productButton"
+          class="border border-white text-xs md:text-sm lg:text-base py-1 px-6 md:px-8 lg:px-12 font-normal bg-black hover:bg-xmGreen rounded-r-full"
+        >
+          Product
+        </button>
+      </div>
+      <div class="w-full relative flex align-center justify-center">
+        <div
+          class="relative w-10/12 md:w-9/12 lg:w-6/12 flex align-center justify-center"
+        >
+          <input
+            id="searchInput"
+            class="w-full md:w-full lg:w-full h-7 md:h-10 lg:h-10 rounded-full bg-xmGrey border border-white px-3 lg:px-5 text-xs md:text-sm lg:text-base focus:outline-none"
+            type="text"
+            placeholder="Search by Category"
+            oninput="handleInputChange(event)"
+          />
+          <div
+            class="h-6 md:h-9 lg:h-9 absolute right-0.5 border-r-50 top-1/2 -translate-y-1/2 bg-xmGreen absolute flex items-center justify-center p-2 rounded-r-full"
+          >
+            <svg
+              class="h-3 md:h-4 lg:h-5 w-4 md:w-5 lg:w-6"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="11" cy="11" r="8"></circle>
+              <path d="M21 21l-4.35-4.35"></path>
+            </svg>
+          </div>
+          <ul
+            id="searchResults"
+            class="w-full top-8 top:h-11 lg:top-11 bg-black absolute flex flex-col ml-5px lg:ml-15px rounded-md"
+          ></ul>
+        </div>
+      </div>
+    </div>
+    <!-- Main Container -->
+    <div
+      class="w-screen pt-12 md:pt-10 lg:pt-14 pb-2 md:pb:4 lg:pb-6 flex flex-col gap-6 md:gap-10 lg:gap-12 items-center text-center"
+    >
+      <img src="./assets/logo/logo full.png" class="h-6 md:h-8 lg:h-10" />
+      <h1 class="text-md md:text-3xl lg:text-4xl font-black">
+        Know what’s really in your food,<br />
+        Discover what’s better.
+      </h1>
+      <p class="text-xmYellow md:text-lg lg:text-3xl font-medium">
+        Just Xume it!
+      </p>
+    </div>
+    <!-- CTA -->
+    <div
+      class="w-full flex items-center justify-center flex-col py-6 gap-2 mt-16 lg:mt-0"
+    >
+      <p class="text-xs lg:text-base">Download Now</p>
+      <div class="flex gap-5">
+        <a
+          href="https://play.google.com/store/apps/details?id=com.planmyfood.app"
+          class="text-2xl lg:text-5xl"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <svg
+            stroke="#fff"
+            fill="#fff"
+            stroke-width="0"
+            viewBox="0 0 1024 1024"
+            height="1em"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M747.4 535.7c-.4-68.2 30.5-119.6 92.9-157.5-34.9-50-87.7-77.5-157.3-82.8-65.9-5.2-138 38.4-164.4 38.4-27.9 0-91.7-36.6-141.9-36.6C273.1 298.8 163 379.8 163 544.6c0 48.7 8.9 99 26.7 150.8 23.8 68.2 109.6 235.3 199.1 232.6 46.8-1.1 79.9-33.2 140.8-33.2 59.1 0 89.7 33.2 141.9 33.2 90.3-1.3 167.9-153.2 190.5-221.6-121.1-57.1-114.6-167.2-114.6-170.7zm-105.1-305c50.7-60.2 46.1-115 44.6-134.7-44.8 2.6-96.6 30.5-126.1 64.8-32.5 36.8-51.6 82.3-47.5 133.6 48.4 3.7 92.6-21.2 129-63.7z"
+            ></path>
+          </svg>
+        </a>
+        <a
+          href="https://apps.apple.com/in/app/xume/id1279728797"
+          class="text-2xl lg:text-5xl"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <svg
+            stroke="currentColor"
+            fill="currentColor"
+            stroke-width="0"
+            viewBox="0 0 1024 1024"
+            height="1em"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M270.1 741.7c0 23.4 19.1 42.5 42.6 42.5h48.7v120.4c0 30.5 24.5 55.4 54.6 55.4 30.2 0 54.6-24.8 54.6-55.4V784.1h85v120.4c0 30.5 24.5 55.4 54.6 55.4 30.2 0 54.6-24.8 54.6-55.4V784.1h48.7c23.5 0 42.6-19.1 42.6-42.5V346.4h-486v395.3zm357.1-600.1l44.9-65c2.6-3.8 2-8.9-1.5-11.4-3.5-2.4-8.5-1.2-11.1 2.6l-46.6 67.6c-30.7-12.1-64.9-18.8-100.8-18.8-35.9 0-70.1 6.7-100.8 18.8l-46.6-67.5c-2.6-3.8-7.6-5.1-11.1-2.6-3.5 2.4-4.1 7.4-1.5 11.4l44.9 65c-71.4 33.2-121.4 96.1-127.8 169.6h486c-6.6-73.6-56.7-136.5-128-169.7zM409.5 244.1a26.9 26.9 0 1 1 26.9-26.9 26.97 26.97 0 0 1-26.9 26.9zm208.4 0a26.9 26.9 0 1 1 26.9-26.9 26.97 26.97 0 0 1-26.9 26.9zm223.4 100.7c-30.2 0-54.6 24.8-54.6 55.4v216.4c0 30.5 24.5 55.4 54.6 55.4 30.2 0 54.6-24.8 54.6-55.4V400.1c.1-30.6-24.3-55.3-54.6-55.3zm-658.6 0c-30.2 0-54.6 24.8-54.6 55.4v216.4c0 30.5 24.5 55.4 54.6 55.4 30.2 0 54.6-24.8 54.6-55.4V400.1c0-30.6-24.5-55.3-54.6-55.3z"
+            ></path>
+          </svg>
+        </a>
+      </div>
+    </div>
+    <script src="./js/dummydata.js"></script>
+    <script src="./js/script.js"></script>
+  </body>
+</html>
